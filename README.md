@@ -24,4 +24,8 @@ O objetivo é oferecer uma plataforma prática para encontrar jogos originalment
 | :-: | :-: |
 | <img width="747" height="1600" alt="WhatsApp Image 2026-09-2aa7 at 15 50 40" src="https://github.com/user-attachments/assets/bb112fd5-6967-4378-a9fd-709714e0a3c9" /> | <img width="748" height="1600" alt="WhatsApp Image 2026-09221-27 at 15 50 40" src="https://github.com/user-attachments/assets/8ccff115-4461-44a2-882d-858ab33af8e1" /> |
 
+### 👥 Colaboradores
+
+* [YTDvidPojavBr](https://github.com/YTDvidPojavBr)
+
 PortHub — Seu universo de jogos em um só lugar!
