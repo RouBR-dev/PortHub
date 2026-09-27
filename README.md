@@ -10,8 +10,7 @@ O objetivo é oferecer uma plataforma prática para encontrar jogos originalment
 
 | Home Screen | Game Details |
 | :-: | :-: |
-| <img width="747" height="1600" alt="WhatsApp Image 2026-09-27 at 15 50 40" src="https://github.com/user-attachments/assets/4b670273-f76d-4d8b-a9c3-f3821f2faf7f" />
- | <img width="748" height="1600" alt="WhatsApp Image 2026-a09-27 at 15 50 40" src="https://github.com/user-attachments/assets/c5fa7659-055c-4067-bb66-e72034c953bf" /> |
+| <img width="747" height="1600" alt="WhatsApp Image 2026-09-27 at 15 50 40" src="https://github.com/user-attachments/assets/4b670273-f76d-4d8b-a9c3-f3821f2faf7f" /> | <img width="748" height="1600" alt="WhatsApp Image 2026-a09-27 at 15 50 40" src="https://github.com/user-attachments/assets/c5fa7659-055c-4067-bb66-e72034c953bf" /> |
 
 | Games Library | Downloads Screen |
 | :-: | :-: |
