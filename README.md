@@ -26,6 +26,6 @@ O objetivo é oferecer uma plataforma prática para encontrar jogos originalment
 
 ### 👥 Colaboradores
 
-* [YTDvidPojavBr](https://github.com/YTDvidPojavBr)
+* [YTAgenteAndroidOFC](https://github.com/YTAgenteAndroidOFC)
 
 PortHub - Seu universo de jogos em um só lugar!
