@@ -28,4 +28,4 @@ O objetivo é oferecer uma plataforma prática para encontrar jogos originalment
 
 * [YTDvidPojavBr](https://github.com/YTDvidPojavBr)
 
-PortHub — Seu universo de jogos em um só lugar!
+PortHub - Seu universo de jogos em um só lugar!
