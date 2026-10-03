@@ -1,4 +1,4 @@
-<div align="center"><img src="https://github.com/user-attachments/assets/6729dc5d-a248-4931-91ae-05b251d7ca3c" width="180" alt="PortHub">PortHub
+<div align="center"><img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" width="180" alt="PortHub">PortHub
 
 Seu universo de jogos em um só lugar.
 
