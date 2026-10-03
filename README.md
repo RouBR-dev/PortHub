@@ -1,12 +1,6 @@
-
-<div align="center">PortHub 
-<div align="center"><img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" width="180" alt="PortHub"
-                    
-                      
-
-Seu universo de jogos em um só lugar.
-
-<p>
+<div align="center"><img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" width="180" alt="PortHub"><h1 align="center">PortHub</h1><p align="center">
+  <strong>Seu universo de jogos em um só lugar.</strong>
+</p><p align="center">
   <img src="https://img.shields.io/badge/Android-21%2B-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
   <img src="https://img.shields.io/badge/Kotlin-1.8.10-7F52FF?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin">
   <img src="https://img.shields.io/badge/Jetpack%20Compose-1.3.2-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose">
@@ -49,25 +43,29 @@ Status| Ativo
 
 Tecnologias
 
-<p>
+<p align="center">
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin">
   <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
   <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase">
 </p>Download
 
-<a href="https://github.com/RouBR-dev/PortHub/releases">
-  <img src="https://img.shields.io/badge/Download-APK-7C3AED?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
-</a>Repositório
+<p align="center">
+  <a href="https://github.com/RouBR-dev/PortHub/releases">
+    <img src="https://img.shields.io/badge/Download-APK-7C3AED?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
+  </a>
+</p>Repositório
 
-<a href="https://github.com/RouBR-dev/PortHub">
-  <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository">
-</a>Colaboradores
+<p align="center">
+  <a href="https://github.com/RouBR-dev/PortHub">
+    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository">
+  </a>
+</p>Colaboradores
 
-<a href="https://github.com/YTAgenteAndroidOFC">
-  <img src="https://img.shields.io/badge/YTAgenteAndroidOFC-Contributor-7C3AED?style=for-the-badge&logo=github&logoColor=white" alt="YTAgenteAndroidOFC">
-</a>PortHub
-
-<div align="center">Seu universo de jogos em um só lugar.
+<p align="center">
+  <a href="https://github.com/YTAgenteAndroidOFC">
+    <img src="https://img.shields.io/badge/YTAgenteAndroidOFC-Contributor-7C3AED?style=for-the-badge&logo=github&logoColor=white" alt="YTAgenteAndroidOFC">
+  </a>
+</p><div align="center"><h2>PortHub</h2><strong>Seu universo de jogos em um só lugar.</strong>
 
 </div>
