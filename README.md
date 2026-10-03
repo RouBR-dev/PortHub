@@ -29,7 +29,9 @@ Home e detalhes do jogo
 
 <div align="center"><img src="https://github.com/user-attachments/assets/6729dc5d-a248-4931-91ae-05b251d7ca3c" width="230" alt="Home"><img src="https://github.com/user-attachments/assets/c5fa7659-055c-4067-bb66-e72034c953bf" width="230" alt="Game Details"></div>Biblioteca e downloads
 
-<div align="center"><img src="https://github.com/user-attachments/assets/bb112fd5-6967-4378-a9fd-709714e0a3c9" width="230" alt="Games Library"><img src="https://github.com/user-attachments/assets/8ccff115-4461-44a2-882d-858ab33af8e1" width="230" alt="Downloads"></div>Informações do Projeto
+<div align="center"><img src="https://github.com/user-attachments/assets/bb112fd5-6967-4378-a9fd-709714e0a3c9" width="230" alt="Games Library"><img src="https://github.com/user-attachments/assets/8ccff115-4461-44a2-882d-858ab33af8e1" width="230" alt="Downloads"></div>
+
+# Informações do Projeto
 
 
 | Informação | Detalhes |
@@ -52,19 +54,19 @@ Home e detalhes do jogo
   <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
   <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase">
-</p>Download
+</p>
 
 <p align="center">
   <a href="https://github.com/RouBR-dev/PortHub/releases">
     <img src="https://img.shields.io/badge/Download-APK-7C3AED?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
   </a>
-</p>Repositório
+</p>
 
 <p align="center">
   <a href="https://github.com/RouBR-dev/PortHub">
     <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository">
   </a>
-</p>Colaboradores
+</p>
 
 <p align="center">
   <a href="https://github.com/YTAgenteAndroidOFC">
