@@ -32,13 +32,21 @@ Home e detalhes do jogo
 <div align="center"><img src="https://github.com/user-attachments/assets/bb112fd5-6967-4378-a9fd-709714e0a3c9" width="230" alt="Games Library"><img src="https://github.com/user-attachments/assets/8ccff115-4461-44a2-882d-858ab33af8e1" width="230" alt="Downloads"></div>Informações do Projeto
 
 Propriedade| Informação
+
 Projeto| PortHub
+
 Plataforma| Android
+
 Linguagem| Kotlin
+
 Interface| Jetpack Compose
-Min SDK| Android 5.0+
+
+Min SDK| Android 5.0
+
 Target SDK| Android 13
+
 Package| "com.app.porthub"
+
 Status| Ativo
 
 Tecnologias
