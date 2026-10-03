@@ -31,25 +31,21 @@ Home e detalhes do jogo
 
 <div align="center"><img src="https://github.com/user-attachments/assets/bb112fd5-6967-4378-a9fd-709714e0a3c9" width="230" alt="Games Library"><img src="https://github.com/user-attachments/assets/8ccff115-4461-44a2-882d-858ab33af8e1" width="230" alt="Downloads"></div>Informações do Projeto
 
-Propriedade| Informação
 
-Projeto| PortHub
+| Informação | Detalhes |
+|---|---|
+| **Nome** | PortHub |
+| **Versão** | 1.0 |
+| **Plataforma** | Android |
+| **Linguagem** | Kotlin |
+| **Interface** | Jetpack Compose |
+| **Min SDK** | Android 5.0 (API 21) |
+| **Target SDK** | Android 13 (API 33) |
+| **Arquitetura** | ARM64 / ARMv7 |
+| **Package** | `com.app.porthub` |
+| **Status** | Em desenvolvimento |
 
-Plataforma| Android
-
-Linguagem| Kotlin
-
-Interface| Jetpack Compose
-
-Min SDK| Android 5.0
-
-Target SDK| Android 13
-
-Package| "com.app.porthub"
-
-Status| Ativo
-
-Tecnologias
+# Tecnologias
 
 <p align="center">
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin">
