@@ -41,7 +41,7 @@ O projeto facilita a descoberta de jogos originalmente lançados para PC, consol
 | Informação | Detalhes |
 |---|---|
 | **Nome** | PortHub |
-| **Versão** | 1.0 |
+| **Versão** | 1.1 |
 | **Plataforma** | Android |
 | **Linguagem** | Kotlin |
 | **Interface** | Jetpack Compose |
