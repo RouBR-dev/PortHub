@@ -66,9 +66,10 @@ O projeto facilita a descoberta de jogos originalmente lançados para PC, consol
   </a>
 </p>
 
-<p align="center"> 
-![Downloads](https://img.shields.io/github/downloads/RouBR-dev/PortHub/total?style=for-the-badge&label=Downloads)
+<p align="center">
+  <img src="https://img.shields.io/github/downloads/RouBR-dev/PortHub/total?style=for-the-badge&label=Downloads&color=651FFF">
 </p>
+
 <p align="center">
   <a href="https://github.com/RouBR-dev/PortHub">
     <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository">
