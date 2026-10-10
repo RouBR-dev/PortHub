@@ -29,7 +29,9 @@ O projeto facilita a descoberta de jogos originalmente lançados para PC, consol
 
 # Home e detalhes do jogo
 
-<div align="center"><img src="https://github.com/user-attachments/assets/6729dc5d-a248-4931-91ae-05b251d7ca3c" width="230" alt="Home"><img src="https://github.com/user-attachments/assets/c5fa7659-055c-4067-bb66-e72034c953bf" width="230" alt="Game Details"></div>
+<p align="center">
+  <img width="753" height="1600" alt="PortHub 1.2 - Preview 1" src="https://github.com/user-attachments/assets/d10fc270-ea60-4a0f-8bda-f73973b0b224" /><img width="749" height="1600" alt="WhatsApp Image 2026-10-10 at 14 21 27" src="https://github.com/user-attachments/assets/542212e5-e232-4aee-83ad-0c95c72966f7" />
+</div>
 
 # Biblioteca e downloads
 
