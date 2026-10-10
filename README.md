@@ -81,7 +81,7 @@ Nosso objetivo é oferecer uma experiência simples, organizada e intuitiva para
 | Informação | Detalhes |
 |---|---|
 | **Nome** | PortHub |
-| **Versão documentada** | 1.1 |
+| **Versão documentada** | 1.2 |
 | **Plataforma** | Android |
 | **Linguagem** | Kotlin |
 | **Interface** | Jetpack Compose |
