@@ -2,7 +2,7 @@
 
   <img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" width="180" alt="Logo PortHub">
 
-  # PortHub
+  <h1>PortHub</h1>
 
   **Seu universo de jogos em um só lugar.**
 
@@ -73,6 +73,7 @@ Nosso objetivo é oferecer uma experiência simples, organizada e intuitiva para
   <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
   <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase">
+  <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase">
 
 </div>
 
