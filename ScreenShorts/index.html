@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PortHub – Seu universo de jogos em um só lugar</title>
+  <meta name="description" content="PortHub é um aplicativo Android open source em Kotlin e Jetpack Compose que reúne, organiza e facilita a descoberta de jogos portados para Android.">
+  <meta name="keywords" content="PortHub, jogos portados, Android, APK, Kotlin, Jetpack Compose, download">
+  <meta name="author" content="RouBR-dev">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#09090B">
+  <link rel="canonical" href="https://roubr-dev.github.io/PortHub/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PortHub – Seu universo de jogos em um só lugar">
+  <meta property="og:description" content="Reúna, organize e descubra jogos portados para Android com o PortHub.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191408.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://github.com">
+  <link rel="preconnect" href="https://api.github.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    :root {
+      --bg: #09090B;
+      --surface: #18151F;
+      --purple: #7C3AED;
+      --purple-2: #6200EA;
+      --purple-light: #BB86FC;
+      --text-2: #A1A1AA;
+      --border: rgba(187, 134, 252, 0.14);
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      background: var(--bg);
+      color: #FAFAFA;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+    ::selection { background: var(--purple); color: #fff; }
+    :focus-visible { outline: 2px solid var(--purple-light); outline-offset: 3px; border-radius: 8px; }
+
+    /* Ambient background */
+    .ambient {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(124,58,237,0.18), transparent 60%),
+        radial-gradient(900px 500px at -10% 30%, rgba(98,0,234,0.12), transparent 60%),
+        linear-gradient(180deg, #09090B 0%, #0c0a10 50%, #09090B 100%);
+    }
+    .grid-bg {
+      position: absolute; inset: 0; opacity: .35;
+      background-image:
+        linear-gradient(rgba(187,134,252,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(187,134,252,0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    }
+
+    /* Glass surfaces */
+    .glass {
+      background: linear-gradient(145deg, rgba(24,21,31,0.85), rgba(24,21,31,0.45));
+      border: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 20px 50px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .glow-card {
+      position: relative;
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), border-color .4s, box-shadow .4s;
+    }
+    .glow-card::before {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: radial-gradient(360px circle at var(--x, 50%) var(--y, 0%), rgba(187,134,252,0.18), transparent 45%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .glow-card:hover { transform: translateY(-4px); border-color: rgba(187,134,252,0.35); box-shadow: 0 30px 60px -25px rgba(124,58,237,0.35); }
+    .glow-card:hover::before { opacity: 1; }
+
+    /* Text & buttons */
+    .text-gradient {
+      background: linear-gradient(120deg, #FFFFFF 0%, #D8B4FE 45%, #7C3AED 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .8rem 1.4rem; border-radius: 14px; font-weight: 600; font-size: .95rem; letter-spacing: .01em;
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease, color .3s ease;
+      white-space: nowrap; cursor: pointer; isolation: isolate;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 40%, #6200EA 100%);
+      box-shadow: 0 10px 30px -8px rgba(124,58,237,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -8px rgba(124,58,237,0.85), inset 0 1px 0 rgba(255,255,255,0.35); }
+    .btn-primary::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; opacity: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+      transform: translateX(-100%); transition: transform .8s ease, opacity .3s;
+    }
+    .btn-primary:hover::after { opacity: 1; transform: translateX(100%); }
+    .btn-ghost {
+      color: #EDE9FE; background: rgba(255,255,255,0.03); border: 1px solid rgba(187,134,252,0.22);
+    }
+    .btn-ghost:hover { background: rgba(124,58,237,0.12); border-color: rgba(187,134,252,0.6); color: #fff; transform: translateY(-2px); }
+
+    .nav-link { position: relative; color: var(--text-2); transition: color .25s; font-size: .9rem; font-weight: 500; }
+    .nav-link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0;
+      background: linear-gradient(90deg, var(--purple-light), var(--purple)); border-radius: 2px;
+      transition: width .35s ease;
+    }
+    .nav-link:hover, .nav-link.active { color: #fff; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem; padding: .35rem .85rem; border-radius: 999px;
+      font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--purple-light);
+      background: rgba(124,58,237,0.1); border: 1px solid rgba(187,134,252,0.2);
+    }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple-light); box-shadow: 0 0 10px var(--purple-light); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1);} 50% { opacity: .4; transform: scale(.7);} }
+
+    .icon-box {
+      width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+      background: linear-gradient(145deg, rgba(124,58,237,0.25), rgba(98,0,234,0.05));
+      border: 1px solid rgba(187,134,252,0.22); color: var(--purple-light);
+      box-shadow: 0 0 24px -6px rgba(124,58,237,0.5);
+    }
+    .icon-box svg { width: 22px; height: 22px; }
+
+    /* Floating hero visuals */
+    .float-a { animation: float 7s ease-in-out infinite; }
+    .float-b { animation: float 9s ease-in-out -3s infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-14px);} }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+
+    .phone {
+      border-radius: 34px; padding: 8px; background: linear-gradient(160deg, #2a2435, #0d0b12 40%, #2a2435);
+      border: 1px solid rgba(187,134,252,0.25);
+      box-shadow: 0 40px 80px -30px rgba(98,0,234,0.6), 0 0 0 1px rgba(0,0,0,0.6);
+    }
+    .shot {
+      border-radius: 18px; overflow: hidden; background: #111; position: relative;
+    }
+    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-fallback {
+      position: absolute; inset: 0; display: none; align-items: center; justify-content: center; text-align: center;
+      padding: 1rem; color: var(--text-2); font-size: .85rem; background: #15121b;
+    }
+    .img-failed .img-fallback { display: flex; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: .1s; } .reveal-d2 { transition-delay: .2s; } .reveal-d3 { transition-delay: .3s; }
+
+    /* Gallery */
+    .gallery-item {
+      position: relative; border-radius: 22px; overflow: hidden; cursor: zoom-in; aspect-ratio: 9/19;
+      border: 1px solid var(--border); background: #120f17;
+      transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s, border-color .5s;
+    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1), filter .5s; }
+    .gallery-item:hover { transform: translateY(-6px); border-color: rgba(187,134,252,0.4); box-shadow: 0 30px 60px -20px rgba(124,58,237,0.45); }
+    .gallery-item:hover img { transform: scale(1.04); filter: brightness(1.08); }
+    .gallery-item .zoom {
+      position: absolute; inset: auto 1rem 1rem auto; width: 40px; height: 40px; border-radius: 12px;
+      display: grid; place-items: center; background: rgba(9,9,11,0.7); border: 1px solid rgba(187,134,252,0.3);
+      color: #fff; opacity: 0; transform: translateY(6px); transition: all .35s ease; backdrop-filter: blur(6px);
+    }
+    .gallery-item:hover .zoom { opacity: 1; transform: none; }
+
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center;
+      background: rgba(9,9,11,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      opacity: 0; transition: opacity .35s ease;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox.show { opacity: 1; }
+    .lightbox-img {
+      max-height: 84vh; max-width: min(92vw, 460px); width: auto; height: auto; border-radius: 26px;
+      border: 1px solid rgba(187,134,252,0.25); box-shadow: 0 40px 100px -20px rgba(124,58,237,0.5);
+      transition: opacity .25s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+    }
+    .lb-btn {
+      position: absolute; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px;
+      background: rgba(24,21,31,0.8); border: 1px solid rgba(187,134,252,0.25); color: #fff; cursor: pointer;
+      transition: all .3s ease;
+    }
+    .lb-btn:hover { background: rgba(124,58,237,0.35); border-color: var(--purple-light); transform: scale(1.06); }
+
+    /* Video */
+    .video-frame { position: relative; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); background: #000; box-shadow: 0 40px 80px -30px rgba(124,58,237,0.45); }
+    .video-frame img.thumb { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease, filter .6s; }
+    .video-frame:hover img.thumb { transform: scale(1.03); filter: brightness(.85); }
+    .play-btn {
+      width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+      background: linear-gradient(135deg, #8B5CF6, #6200EA); box-shadow: 0 0 0 12px rgba(124,58,237,0.18), 0 0 60px rgba(124,58,237,0.7);
+      transition: transform .35s ease, box-shadow .35s ease;
+    }
+    .video-frame:hover .play-btn { transform: scale(1.1); box-shadow: 0 0 0 18px rgba(124,58,237,0.22), 0 0 80px rgba(124,58,237,0.9); }
+    .play-btn::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid rgba(187,134,252,.5); animation: ring 2.4s ease-out infinite; }
+    @keyframes ring { from { transform: scale(.9); opacity: 1;} to { transform: scale(1.5); opacity: 0;} }
+
+    /* Creator avatar */
+    .avatar-wrap { position: relative; width: 96px; height: 96px; border-radius: 28px; padding: 2px; background: linear-gradient(135deg, var(--purple-light), var(--purple-2)); }
+    .avatar-wrap img { width: 100%; height: 100%; border-radius: 26px; object-fit: cover; background: var(--surface); }
+    .avatar-initials { position: absolute; inset: 2px; border-radius: 26px; display: none; place-items: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.6rem; background: var(--surface); color: var(--purple-light); }
+    .avatar-failed .avatar-initials { display: grid; }
+
+    /* Chips */
+    .chip {
+      padding: .55rem 1rem; border-radius: 999px; font-size: .85rem; font-weight: 500; color: var(--text-2);
+      border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); cursor: pointer; transition: all .3s ease;
+    }
+    .chip:hover { color: #fff; border-color: rgba(187,134,252,.4); }
+    .chip[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, rgba(124,58,237,.5), rgba(98,0,234,.35)); border-color: rgba(187,134,252,.6); box-shadow: 0 0 24px -6px rgba(124,58,237,.7); }
+
+    /* Mobile menu */
+    .mobile-menu { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; }
+    .mobile-menu.open { max-height: 520px; opacity: 1; }
+    .burger span { transition: transform .35s ease, opacity .25s; }
+    .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Downloads counter */
+    .counter-num { font-family: 'Space Grotesk', sans-serif; font-variant-numeric: tabular-nums; }
+    .skeleton { display: inline-block; height: 1em; width: 6ch; border-radius: 6px; background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(187,134,252,.25), rgba(255,255,255,.05)); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; vertical-align: middle; }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    .spin { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .download-panel {
+      position: relative; overflow: hidden; border-radius: 32px;
+      background: radial-gradient(800px 380px at 50% -20%, rgba(124,58,237,0.55), transparent 65%), linear-gradient(160deg, #1d1530 0%, #120e1d 60%, #0b0912 100%);
+      border: 1px solid rgba(187,134,252,0.35);
+      box-shadow: 0 50px 100px -40px rgba(124,58,237,0.7), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .download-panel::after {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(120deg, transparent 40%, rgba(187,134,252,0.25) 50%, transparent 60%);
+      background-size: 250% 100%; animation: sheen 6s linear infinite; mix-blend-mode: screen; opacity: .6;
+    }
+    @keyframes sheen { from { background-position: 150% 0; } to { background-position: -150% 0; } }
+
+    .tech-row:hover td { background: rgba(124,58,237,0.06); }
+    .tech-row td { transition: background .25s; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 140%); z-index: 120;
+      padding: .75rem 1.1rem; border-radius: 14px; font-size: .9rem; transition: transform .45s cubic-bezier(.2,.8,.2,1);
+    }
+    .toast.show { transform: translate(-50%, 0); }
+
+    .back-top { opacity: 0; pointer-events: none; transform: translateY(12px); transition: all .35s ease; }
+    .back-top.show { opacity: 1; pointer-events: auto; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Ambient background -->
+  <div class="ambient" aria-hidden="true"><div class="grid-bg"></div></div>
+
+  <!-- Reusable logo symbol -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#BB86FC"/>
+        <stop offset=".5" stop-color="#7C3AED"/>
+        <stop offset="1" stop-color="#6200EA"/>
+      </linearGradient>
+      <symbol id="logo-mark" viewBox="0 0 64 64">
+        <rect x="2" y="2" width="60" height="60" rx="18" fill="#18151F" stroke="rgba(187,134,252,.35)"/>
+        <path d="M20 16h14a12 12 0 0 1 0 24H28v8h-8V16zm8 8v8h6a4 4 0 0 0 0-8h-6z" fill="url(#logoGrad)"/>
+        <circle cx="46" cy="46" r="3" fill="#BB86FC"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ================= HEADER ================= -->
+  <header id="header" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div id="header-bar" class="mt-3 flex items-center justify-between h-16 px-4 sm:px-5 rounded-2xl border border-transparent transition-all duration-500">
+        <a href="#inicio" class="flex items-center gap-3 group" aria-label="PortHub - início">
+          <img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" alt="Logo PortHub" width="36" height="36" class="w-9 h-9 rounded-xl object-cover drop-shadow-[0_0_12px_rgba(124,58,237,0.6)] transition-transform duration-500 group-hover:rotate-6">
+          <span class="font-display font-bold text-lg tracking-tight">Port<span class="text-[#BB86FC]">Hub</span></span>
+        </a>
+
+        <nav class="hidden lg:flex items-center gap-8" aria-label="Navegação principal">
+          <a href="#inicio" class="nav-link">Início</a>
+          <a href="#sobre" class="nav-link">Sobre</a>
+          <a href="#recursos" class="nav-link">Recursos</a>
+          <a href="#screenshots" class="nav-link">Screenshots</a>
+          <a href="#criadores" class="nav-link">Criadores</a>
+          <a href="#download" class="nav-link">Download</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <a href="#download" class="btn btn-primary hidden sm:inline-flex !py-2.5 !px-4 !text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+            Baixar APK
+          </a>
+          <button id="burger" class="burger lg:hidden relative w-10 h-10 rounded-xl glass grid place-items-center" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="block w-4 h-0.5 bg-white rounded-full -translate-y-1.5"></span>
+            <span class="block w-4 h-0.5 bg-white rounded-full"></span>
+            <span class="block w-4 h-0.5 bg-white rounded-full translate-y-1.5"></span>
+          </button>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="mobile-menu lg:hidden">
+        <nav class="mt-2 glass rounded-2xl p-3 flex flex-col" aria-label="Navegação mobile">
+          <a href="#inicio" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Início</a>
+          <a href="#sobre" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Sobre</a>
+          <a href="#recursos" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Recursos</a>
+          <a href="#screenshots" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Screenshots</a>
+          <a href="#criadores" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Criadores</a>
+          <a href="#download" class="mobile-link px-4 py-3 rounded-xl text-[15px] text-zinc-300 hover:bg-white/5 hover:text-white transition">Download</a>
+          <a href="https://github.com/RouBR-dev/PortHub/releases" target="_blank" rel="noopener" class="btn btn-primary mt-2">Baixar APK</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="inicio" class="relative min-h-[100svh] pt-32 pb-20 lg:pt-36 flex items-center overflow-hidden">
+      <div class="orb w-[420px] h-[420px] bg-[#7C3AED]/30 -top-20 -left-24"></div>
+      <div class="orb w-[380px] h-[380px] bg-[#6200EA]/30 bottom-0 right-0"></div>
+
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-16 items-center relative">
+        <div class="text-center lg:text-left">
+          <div class="reveal flex justify-center lg:justify-start">
+            <span class="eyebrow"><span class="dot"></span> Android · Open Source · v1.3</span>
+          </div>
+
+          <div class="reveal reveal-d1 mt-8 flex items-center justify-center lg:justify-start gap-5">
+            <div class="relative">
+              <div class="absolute inset-0 blur-2xl bg-[#7C3AED]/60 rounded-full"></div>
+              <img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" alt="Logo PortHub" width="96" height="96" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-[1.6rem] object-cover drop-shadow-[0_0_30px_rgba(124,58,237,0.7)]">
+            </div>
+            <h1 class="font-display text-6xl sm:text-7xl font-bold tracking-tight">
+              <span class="text-gradient">PortHub</span>
+            </h1>
+          </div>
+
+          <p class="reveal reveal-d2 mt-6 text-2xl sm:text-3xl font-semibold text-white leading-tight">
+            Seu universo de jogos <span class="text-[#BB86FC]">em um só lugar</span>.
+          </p>
+          <p class="reveal reveal-d2 mt-5 text-zinc-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            Aplicativo Android para reunir, organizar e descobrir jogos portados para o seu celular. Pesquise, explore categorias, acompanhe downloads e mantenha sua biblioteca sempre à mão, com uma interface escura e minimalista.
+          </p>
+
+          <div class="reveal reveal-d3 mt-10 max-w-md mx-auto lg:mx-0">
+            <div class="glass rounded-2xl p-5 flex items-center justify-between gap-4" aria-live="polite">
+              <div class="text-left min-w-0">
+                <p class="text-[11px] uppercase tracking-[0.2em] text-[#BB86FC]">Downloads do aplicativo</p>
+                <div class="mt-1 min-h-[2.75rem] flex items-center gap-3">
+                  <span id="dl-loading" class="items-center gap-2 text-zinc-400 text-sm">
+                    <svg class="w-4 h-4 inline-block align-[-3px] spin text-[#BB86FC]" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity=".25" stroke-width="3"/><path d="M21 12a9 9 0 00-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    Carregando contagem...
+                  </span>
+                  <span id="dl-count" class="counter-num hidden text-4xl sm:text-5xl font-bold text-gradient"></span>
+                  <span id="dl-error" class="hidden text-sm text-zinc-400">Não foi possível carregar a contagem agora.</span>
+                </div>
+                <p id="dl-updated" class="mt-1 text-[11px] text-zinc-500"></p>
+              </div>
+              <button id="dl-refresh" class="shrink-0 w-10 h-10 rounded-xl grid place-items-center border border-[#BB86FC]/20 text-[#BB86FC] hover:text-white hover:bg-[#7C3AED]/20 transition disabled:opacity-50" aria-label="Atualizar contagem de downloads" title="Atualizar contagem">
+                <svg id="dl-refresh-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 0114-5.3L20 9M20 4v5h-5M20 12a8 8 0 01-14 5.3L4 15M4 20v-5h5"/></svg>
+              </button>
+            </div>
+            <div class="mt-5 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <a href="https://github.com/RouBR-dev/PortHub/releases" target="_blank" rel="noopener" class="btn btn-primary !py-4 !px-7">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+                Baixar APK
+              </a>
+              <a href="https://github.com/RouBR-dev/PortHub" target="_blank" rel="noopener" class="btn btn-ghost !py-4 !px-7">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 015.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+
+          <div class="reveal reveal-d3 mt-10 flex flex-wrap gap-x-8 gap-y-3 justify-center lg:justify-start text-sm text-zinc-500">
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#BB86FC]"></span>Android 5.0+</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#BB86FC]"></span>Kotlin + Compose</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#BB86FC]"></span>ARM64 / ARMv7</span>
+          </div>
+        </div>
+
+        <!-- Hero visual: real screenshots -->
+        <div class="reveal reveal-d2 relative h-[520px] sm:h-[600px] flex items-center justify-center">
+          <div class="absolute w-[80%] h-[80%] rounded-full bg-gradient-to-tr from-[#7C3AED]/40 via-[#6200EA]/20 to-transparent blur-3xl"></div>
+          <div class="absolute w-64 h-64 rounded-full border border-[#BB86FC]/10"></div>
+          <div class="absolute w-96 h-96 rounded-full border border-[#BB86FC]/5"></div>
+
+          <div class="float-b absolute left-0 sm:left-4 top-10 w-[46%] max-w-[210px] z-10 -rotate-6 hover:rotate-0 transition-transform duration-700">
+            <div class="phone">
+              <div class="shot aspect-[9/19]">
+                <img src="https://github.com/user-attachments/assets/542212e5-e232-4aee-83ad-0c95c72966f7" alt="Tela de detalhes de um jogo no aplicativo PortHub" loading="eager" decoding="async" width="360" height="760" onerror="this.parentElement.parentElement.parentElement.classList.add('img-failed')">
+                <div class="img-fallback">Captura indisponível no momento</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-a absolute right-0 sm:right-4 bottom-4 w-[50%] max-w-[230px] z-20 rotate-4 hover:rotate-0 transition-transform duration-700">
+            <div class="phone">
+              <div class="shot aspect-[9/19]">
+                <img src="https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191408.png" alt="Tela inicial do aplicativo PortHub com catálogo de jogos" loading="eager" decoding="async" width="360" height="760" onerror="this.parentElement.parentElement.parentElement.classList.add('img-failed')">
+                <div class="img-fallback">Captura indisponível no momento</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#sobre" aria-label="Rolar para a seção Sobre" class="hidden lg:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-zinc-500 hover:text-[#BB86FC] transition">
+        <span class="text-[11px] tracking-[0.3em] uppercase">Explorar</span>
+        <span class="w-5 h-8 rounded-full border border-zinc-600 flex justify-center pt-1.5"><span class="w-1 h-1.5 rounded-full bg-[#BB86FC] animate-bounce"></span></span>
+      </a>
+    </section>
+
+    <!-- ================= SOBRE ================= -->
+    <section id="sobre" class="relative py-24 sm:py-32">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5 reveal">
+            <span class="eyebrow">Sobre o projeto</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 leading-[1.1] tracking-tight">
+              Sobre o <span class="text-gradient">PortHub</span>
+            </h2>
+            <p class="mt-6 text-zinc-400 text-lg leading-relaxed">
+              O PortHub é um aplicativo Android desenvolvido para reunir, organizar e facilitar a descoberta de jogos portados para dispositivos Android.
+            </p>
+            <p class="mt-4 text-zinc-500 leading-relaxed">
+              A proposta é centralizar em uma única interface o que está espalhado pela internet: informações, capas, screenshots, categorias e atualizações, sempre com um visual premium e de fácil navegação.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+            <div class="glass glow-card rounded-3xl p-7 reveal">
+              <div class="icon-box mb-5"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z"/></svg></div>
+              <h3 class="font-semibold text-xl">Organização</h3>
+              <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Jogos reunidos em um só lugar, com informações claras e navegação fluida.</p>
+            </div>
+            <div class="glass glow-card rounded-3xl p-7 reveal reveal-d1">
+              <div class="icon-box mb-5"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-4-4"/></svg></div>
+              <h3 class="font-semibold text-xl">Descoberta</h3>
+              <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Pesquisa e categorias para encontrar rapidamente o próximo jogo que você quer jogar.</p>
+            </div>
+            <div class="glass glow-card rounded-3xl p-7 reveal sm:col-span-2">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
+                <div class="flex-1">
+                  <h3 class="font-semibold text-xl">Desenvolvido com tecnologias modernas</h3>
+                  <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Código nativo, interface declarativa e back-end como serviço, pensados para desempenho e manutenção.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip !cursor-default">Kotlin</span>
+                  <span class="chip !cursor-default">Jetpack Compose</span>
+                  <span class="chip !cursor-default">Android</span>
+                  <span class="chip !cursor-default">Firebase</span>
+                  <span class="chip !cursor-default">Supabase</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RECURSOS ================= -->
+    <section id="recursos" class="relative py-24 sm:py-32">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8">
+        <div class="max-w-2xl mx-auto text-center reveal">
+          <span class="eyebrow">Recursos</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Tudo que você precisa, <span class="text-gradient">sem excesso</span></h2>
+          <p class="mt-5 text-zinc-400 text-lg">Funcionalidades pensadas para descoberta, organização e acompanhamento dos jogos portados.</p>
+        </div>
+
+        <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Catálogo -->
+          <article class="glass glow-card rounded-3xl p-7 reveal">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></div>
+            <h3 class="font-semibold text-lg">Catálogo de jogos</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Lista organizada de jogos portados para Android, em um layout limpo e rápido.</p>
+          </article>
+          <!-- Pesquisa -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d1">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-4-4"/></svg></div>
+            <h3 class="font-semibold text-lg">Pesquisa</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Encontre títulos pelo nome em segundos, sem precisar rolar listas infinitas.</p>
+          </article>
+          <!-- Categorias -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d2">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7a3 3 0 013-3h3l2 2h5a3 3 0 013 3v7a3 3 0 01-3 3H7a3 3 0 01-3-3V7z"/></svg></div>
+            <h3 class="font-semibold text-lg">Categorias</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Explore por gênero e estilo. Clique para ver como as categorias ajudam na descoberta.</p>
+            <div class="mt-5 flex flex-wrap gap-2" id="category-chips">
+              <button class="chip" aria-pressed="true" data-cat="Ação">Ação</button>
+              <button class="chip" aria-pressed="false" data-cat="Aventura">Aventura</button>
+              <button class="chip" aria-pressed="false" data-cat="Estratégia">Estratégia</button>
+              <button class="chip" aria-pressed="false" data-cat="Corrida">Corrida</button>
+            </div>
+            <p id="category-desc" class="mt-4 text-xs text-[#BB86FC]/90 min-h-[2.5rem] transition-opacity duration-300">Títulos de ritmo intenso, combate e reflexo rápido.</p>
+          </article>
+          <!-- Downloads -->
+          <article class="glass glow-card rounded-3xl p-7 reveal">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></div>
+            <h3 class="font-semibold text-lg">Downloads</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Acompanhe e acesse os downloads dos APKs publicados nas releases oficiais.</p>
+          </article>
+          <!-- Capas e screenshots -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d1">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 16l-5-5-8 8"/></svg></div>
+            <h3 class="font-semibold text-lg">Capas e screenshots</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Visualize capas e imagens de cada jogo antes de decidir o que instalar.</p>
+          </article>
+          <!-- Destaques -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d2">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3.1-5.4 3.1 1.2-6-4.5-4.2 6.1-.7L12 3z"/></svg></div>
+            <h3 class="font-semibold text-lg">Destaques</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Seção com títulos em evidência para você descobrir novidades e favoritos da comunidade.</p>
+          </article>
+          <!-- Biblioteca -->
+          <article class="glass glow-card rounded-3xl p-7 reveal">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h4v16H4zM10 4h4v16h-4zM16 6l4 1-3.5 13-4-1z"/></svg></div>
+            <h3 class="font-semibold text-lg">Biblioteca</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Mantenha seus jogos salvos e organizados em um espaço pessoal dentro do app.</p>
+          </article>
+          <!-- Atualizações -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d1">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 0114-5.3L20 9M20 4v5h-5M20 12a8 8 0 01-14 5.3L4 15M4 20v-5h5"/></svg></div>
+            <h3 class="font-semibold text-lg">Atualizações</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Fique por dentro das novas versões e melhorias do aplicativo PortHub.</p>
+          </article>
+          <!-- Informações -->
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d2">
+            <div class="icon-box mb-6"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 11v5M12 8h.01"/></svg></div>
+            <h3 class="font-semibold text-lg">Informações detalhadas</h3>
+            <p class="text-zinc-400 mt-2 text-sm leading-relaxed">Detalhes de cada título: descrição, plataforma e dados essenciais em uma única tela.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREENSHOTS ================= -->
+    <section id="screenshots" class="relative py-24 sm:py-32">
+      <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[500px] bg-gradient-to-r from-transparent via-[#7C3AED]/10 to-transparent blur-3xl pointer-events-none"></div>
+      <div class="relative max-w-7xl mx-auto px-5 sm:px-8">
+        <div class="max-w-2xl mx-auto text-center reveal">
+          <span class="eyebrow">Screenshots oficiais</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Veja o <span class="text-gradient">PortHub</span> em ação</h2>
+          <p class="mt-5 text-zinc-400 text-lg">Capturas reais do aplicativo. Clique em qualquer imagem para ampliar e navegar.</p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" id="gallery">
+          <button class="gallery-item reveal text-left" data-index="0" aria-label="Ampliar screenshot: Home e detalhes">
+            <img src="https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191408.png" alt="Home do PortHub com catálogo de jogos" loading="lazy" decoding="async">
+            <span class="absolute bottom-3 left-3 text-xs font-medium px-3 py-1.5 rounded-full bg-black/60 backdrop-blur border border-white/10">Home</span>
+            <span class="zoom"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 8v6M8 11h6M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg></span>
+          </button>
+          <button class="gallery-item reveal reveal-d1 text-left" data-index="1" aria-label="Ampliar screenshot: Detalhes do jogo">
+            <img src="https://github.com/user-attachments/assets/542212e5-e232-4aee-83ad-0c95c72966f7" alt="Tela de detalhes de um jogo no PortHub" loading="lazy" decoding="async">
+            <span class="absolute bottom-3 left-3 text-xs font-medium px-3 py-1.5 rounded-full bg-black/60 backdrop-blur border border-white/10">Detalhes</span>
+            <span class="zoom"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 8v6M8 11h6M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg></span>
+          </button>
+          <button class="gallery-item reveal reveal-d2 text-left" data-index="2" aria-label="Ampliar screenshot: Biblioteca">
+            <img src="https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191342.png" alt="Biblioteca de jogos no aplicativo PortHub" loading="lazy" decoding="async">
+            <span class="absolute bottom-3 left-3 text-xs font-medium px-3 py-1.5 rounded-full bg-black/60 backdrop-blur border border-white/10">Biblioteca</span>
+            <span class="zoom"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 8v6M8 11h6M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg></span>
+          </button>
+          <button class="gallery-item reveal reveal-d3 text-left" data-index="3" aria-label="Ampliar screenshot: Downloads">
+            <img src="https://github.com/user-attachments/assets/3a6b37d1-8f07-4669-a928-168b383d41e9" alt="Tela de downloads do PortHub" loading="lazy" decoding="async">
+            <span class="absolute bottom-3 left-3 text-xs font-medium px-3 py-1.5 rounded-full bg-black/60 backdrop-blur border border-white/10">Downloads</span>
+            <span class="zoom"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 8v6M8 11h6M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada das screenshots">
+      <button id="lb-close" class="lb-btn top-5 right-5" aria-label="Fechar">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <button id="lb-prev" class="lb-btn left-3 sm:left-8 top-1/2 -translate-y-1/2" aria-label="Imagem anterior">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button id="lb-next" class="lb-btn right-3 sm:right-8 top-1/2 -translate-y-1/2" aria-label="Próxima imagem">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <figure class="flex flex-col items-center gap-5 px-16">
+        <img id="lb-img" class="lightbox-img" src="" alt="">
+        <figcaption class="flex items-center gap-4 text-sm text-zinc-400">
+          <span id="lb-caption" class="text-white font-medium"></span>
+          <span class="w-1 h-1 rounded-full bg-zinc-600"></span>
+          <span id="lb-counter" class="tabular-nums"></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- ================= VÍDEO ================= -->
+    <section id="video" class="relative py-24 sm:py-32">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8">
+        <div class="text-center reveal">
+          <span class="eyebrow">Vídeos</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Conheça o <span class="text-gradient">projeto em movimento</span></h2>
+        </div>
+
+        <div class="mt-14 grid md:grid-cols-2 gap-6 lg:gap-8">
+          <!-- Vídeo 1 -->
+          <article class="reveal">
+            <div class="yt-player video-frame group" data-yt-id="qJkMFK1Ga0A" data-yt-title="Vídeo de apresentação do PortHub">
+              <button class="yt-play absolute inset-0 w-full h-full cursor-pointer" aria-label="Reproduzir vídeo de apresentação do PortHub">
+                <img class="thumb" src="https://img.youtube.com/vi/qJkMFK1Ga0A/hqdefault.jpg" alt="Miniatura do vídeo de apresentação do PortHub" loading="lazy" decoding="async">
+                <span class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-[#7C3AED]/20"></span>
+                <span class="absolute inset-0 grid place-items-center">
+                  <span class="play-btn relative"><svg class="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 001.5.86l11-6.86a1 1 0 000-1.72l-11-6.86A1 1 0 008 5.14z"/></svg></span>
+                </span>
+              </button>
+            </div>
+            <div class="mt-5 flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="font-semibold text-white">Apresentação do PortHub</h3>
+                <p class="text-sm text-zinc-500 mt-1">Vídeo de apresentação</p>
+              </div>
+              <a href="https://youtu.be/qJkMFK1Ga0A" target="_blank" rel="noopener" class="btn btn-ghost !py-2 !px-4 !text-sm shrink-0">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+                YouTube
+              </a>
+            </div>
+          </article>
+
+          <!-- Vídeo 2 -->
+          <article class="reveal reveal-d1">
+            <div class="yt-player video-frame group" data-yt-id="ktNBhmpsUP0" data-yt-title="Vídeo complementar do PortHub">
+              <button class="yt-play absolute inset-0 w-full h-full cursor-pointer" aria-label="Reproduzir vídeo complementar do PortHub">
+                <img class="thumb" src="https://img.youtube.com/vi/ktNBhmpsUP0/hqdefault.jpg" alt="Miniatura do vídeo complementar do PortHub" loading="lazy" decoding="async">
+                <span class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-[#7C3AED]/20"></span>
+                <span class="absolute inset-0 grid place-items-center">
+                  <span class="play-btn relative"><svg class="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 001.5.86l11-6.86a1 1 0 000-1.72l-11-6.86A1 1 0 008 5.14z"/></svg></span>
+                </span>
+              </button>
+            </div>
+            <div class="mt-5 flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="font-semibold text-white">Vídeo complementar</h3>
+                <p class="text-sm text-zinc-500 mt-1">Mais detalhes do projeto</p>
+              </div>
+              <a href="https://youtu.be/ktNBhmpsUP0" target="_blank" rel="noopener" class="btn btn-ghost !py-2 !px-4 !text-sm shrink-0">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+                YouTube
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CRIADORES ================= -->
+    <section id="criadores" class="relative py-24 sm:py-32">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8">
+        <div class="max-w-2xl mx-auto text-center reveal">
+          <span class="eyebrow">Criadores e colaboradores</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Quem faz o <span class="text-gradient">PortHub</span></h2>
+          <p class="mt-5 text-zinc-400 text-lg">Conheça os canais por trás do projeto e acompanhe novidades.</p>
+        </div>
+
+        <div class="mt-16 grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <article class="glass glow-card rounded-3xl p-7 reveal">
+            <div class="flex items-center gap-5">
+              <div class="avatar-wrap shrink-0" data-avatar>
+                <img src="https://yt3.googleusercontent.com/fXIBgyprPyUR_As-Sls-vRyNXvqpnWQk43FPF6Bne4rxKULZ8ulQhPgcnKJaKwgrBPTQyCWphA=s120-c-k-c0x00ffffff-no-rj" alt="Foto de Rodrigo Pereira Santana" loading="lazy" decoding="async" width="96" height="96" onerror="this.closest('[data-avatar]').classList.add('avatar-failed')">
+                <span class="avatar-initials">RS</span>
+              </div>
+              <div class="min-w-0">
+                <p class="text-xs uppercase tracking-[0.18em] text-[#BB86FC]">Criador</p>
+                <h3 class="font-display font-semibold text-xl mt-1">Rodrigo Pereira Santana</h3>
+                <a href="https://youtube.com/@rodrigopereirasantana" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition group">
+                  <span class="w-7 h-7 rounded-lg grid place-items-center bg-red-500/10 border border-red-500/20 text-red-400 group-hover:bg-red-500/20 transition"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></span>
+                  @rodrigopereirasantana
+                  <svg class="w-3.5 h-3.5 opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 17L17 7M9 7h8v8"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="glass glow-card rounded-3xl p-7 reveal reveal-d1">
+            <div class="flex items-center gap-5">
+              <div class="avatar-wrap shrink-0" data-avatar>
+                <img src="https://yt3.googleusercontent.com/7JF6IewJvIitg6_mgVN8hbp3tLAeT0qVIRW-m2SzM_4akh-eL3fuLgO21xL4uG9EfxkBWhWUtgI=s120-c-k-c0x00ffffff-no-rj" alt="Foto do canal YTAgenteAndroidOFC" loading="lazy" decoding="async" width="96" height="96" onerror="this.closest('[data-avatar]').classList.add('avatar-failed')">
+                <span class="avatar-initials">AA</span>
+              </div>
+              <div class="min-w-0">
+                <p class="text-xs uppercase tracking-[0.18em] text-[#BB86FC]">Colaborador</p>
+                <h3 class="font-display font-semibold text-xl mt-1">YTAgenteAndroidOFC</h3>
+                <a href="https://youtube.com/@yt_agenteandroid" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition group">
+                  <span class="w-7 h-7 rounded-lg grid place-items-center bg-red-500/10 border border-red-500/20 text-red-400 group-hover:bg-red-500/20 transition"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></span>
+                  @yt_agenteandroid
+                  <svg class="w-3.5 h-3.5 opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 17L17 7M9 7h8v8"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FICHA TÉCNICA ================= -->
+    <section id="tecnico" class="relative py-24 sm:py-32">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="text-center reveal">
+          <span class="eyebrow">Informações técnicas</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Ficha <span class="text-gradient">técnica</span></h2>
+        </div>
+
+        <div class="mt-14 glass rounded-3xl overflow-hidden reveal">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm sm:text-base">
+              <caption class="sr-only">Informações técnicas do aplicativo PortHub</caption>
+              <thead>
+                <tr class="border-b border-[#BB86FC]/15 bg-white/[0.02]">
+                  <th scope="col" class="px-6 py-4 font-semibold text-[#BB86FC] uppercase text-xs tracking-[0.15em] w-1/3">Informação</th>
+                  <th scope="col" class="px-6 py-4 font-semibold text-[#BB86FC] uppercase text-xs tracking-[0.15em]">Detalhes</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5">
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Nome</th><td class="px-6 py-4 text-white font-medium">PortHub</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Versão documentada</th><td class="px-6 py-4 text-white">1.3</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Plataforma</th><td class="px-6 py-4 text-white">Android</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Linguagem</th><td class="px-6 py-4 text-white">Kotlin</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Interface</th><td class="px-6 py-4 text-white">Jetpack Compose</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Min SDK</th><td class="px-6 py-4 text-white">Android 5.0 (API 21)</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Target SDK</th><td class="px-6 py-4 text-white">Android 13 (API 33)</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Arquiteturas</th><td class="px-6 py-4 text-white">ARM64 / ARMv7</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Package</th><td class="px-6 py-4 text-white font-mono text-[13px] sm:text-sm">com.app.porthub</td></tr>
+                <tr class="tech-row"><th scope="row" class="px-6 py-4 font-medium text-zinc-400 font-normal">Status</th><td class="px-6 py-4"><span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>Em desenvolvimento</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-2 reveal">
+          <span class="chip !cursor-default">Kotlin</span>
+          <span class="chip !cursor-default">Jetpack Compose</span>
+          <span class="chip !cursor-default">Android</span>
+          <span class="chip !cursor-default">Firebase</span>
+          <span class="chip !cursor-default">Supabase</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DOWNLOAD ================= -->
+    <section id="download" class="relative py-24 sm:py-32">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="download-panel p-8 sm:p-14 reveal">
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[520px] h-[260px] bg-[#7C3AED]/40 blur-[90px] rounded-full pointer-events-none"></div>
+
+          <div class="relative text-center">
+            <span class="eyebrow">Download oficial</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mt-6 tracking-tight">Instale o <span class="text-gradient">PortHub</span></h2>
+            <p class="mt-5 text-zinc-300/80 max-w-xl mx-auto">Baixe o APK diretamente das releases oficiais no GitHub ou acompanhe o código-fonte do projeto.</p>
+
+
+            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="https://github.com/RouBR-dev/PortHub/releases" target="_blank" rel="noopener" class="btn btn-primary !py-4 !px-8">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+                Baixar APK (Releases)
+              </a>
+              <a href="https://github.com/RouBR-dev/PortHub" target="_blank" rel="noopener" class="btn btn-ghost !py-4 !px-8">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 015.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                Repositório no GitHub
+              </a>
+            </div>
+            <p class="mt-6 text-xs text-zinc-500">Versão documentada 1.3 · Android 5.0+ (API 21) · ARM64 / ARMv7</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= RODAPÉ ================= -->
+  <footer class="relative border-t border-white/5 bg-[#09090B]/80 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <a href="#inicio" class="flex items-center gap-3 w-max">
+            <img src="https://i.postimg.cc/7ZptdXKs/image2sjsnsnd.png" alt="Logo PortHub" width="36" height="36" class="w-9 h-9 rounded-xl object-cover">
+            <span class="font-display font-bold text-lg">Port<span class="text-[#BB86FC]">Hub</span></span>
+          </a>
+          <p class="mt-5 text-zinc-400 text-sm leading-relaxed max-w-xs">Seu universo de jogos em um só lugar.</p>
+          <p class="mt-3 text-zinc-500 text-xs leading-relaxed max-w-xs">Projeto independente para Android. Não é afiliado às plataformas de jogos citadas.</p>
+        </div>
+
+        <div class="lg:col-span-2">
+          <h3 class="text-xs uppercase tracking-[0.18em] text-white font-semibold">Navegação</h3>
+          <ul class="mt-5 space-y-3 text-sm text-zinc-400">
+            <li><a href="#inicio" class="hover:text-white transition">Início</a></li>
+            <li><a href="#sobre" class="hover:text-white transition">Sobre</a></li>
+            <li><a href="#recursos" class="hover:text-white transition">Recursos</a></li>
+            <li><a href="#screenshots" class="hover:text-white transition">Screenshots</a></li>
+            <li><a href="#criadores" class="hover:text-white transition">Criadores</a></li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-3">
+          <h3 class="text-xs uppercase tracking-[0.18em] text-white font-semibold">Links oficiais</h3>
+          <ul class="mt-5 space-y-3 text-sm text-zinc-400">
+            <li><a href="https://github.com/RouBR-dev/PortHub" target="_blank" rel="noopener" class="hover:text-white transition">Repositório no GitHub</a></li>
+            <li><a href="https://github.com/RouBR-dev/PortHub/releases" target="_blank" rel="noopener" class="hover:text-white transition">Releases</a></li>
+            <li><a href="https://youtu.be/qJkMFK1Ga0A" target="_blank" rel="noopener" class="hover:text-white transition">Vídeo de apresentação</a></li>
+          </ul>
+          <h3 class="mt-8 text-xs uppercase tracking-[0.18em] text-white font-semibold">Criadores</h3>
+          <ul class="mt-5 space-y-3 text-sm text-zinc-400">
+            <li><a href="https://youtube.com/@rodrigopereirasantana" target="_blank" rel="noopener" class="hover:text-white transition">Rodrigo Pereira Santana</a></li>
+            <li><a href="https://youtube.com/@yt_agenteandroid" target="_blank" rel="noopener" class="hover:text-white transition">YTAgenteAndroidOFC</a></li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-3">
+          <h3 class="text-xs uppercase tracking-[0.18em] text-white font-semibold">Download</h3>
+          <p class="mt-5 text-sm text-zinc-400 leading-relaxed">Obtenha a versão mais recente do APK nas releases oficiais.</p>
+          <a href="https://github.com/RouBR-dev/PortHub/releases" target="_blank" rel="noopener" class="btn btn-primary mt-5 !py-2.5 !px-5 !text-sm">Baixar APK</a>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <p>© <span id="year">2026</span> PortHub. Todos os direitos reservados.</p>
+        <p class="flex items-center gap-2"><span>Versão 1.3</span><span class="w-1 h-1 rounded-full bg-zinc-700"></span><span>Em desenvolvimento</span><span class="w-1 h-1 rounded-full bg-zinc-700"></span><span>Kotlin · Jetpack Compose</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="back-top" class="back-top fixed bottom-6 right-6 z-40 w-11 h-11 rounded-2xl glass grid place-items-center text-[#BB86FC] hover:text-white hover:border-[#BB86FC]/50 transition" aria-label="Voltar ao topo">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Toast -->
+  <div id="toast" class="toast glass text-sm text-white" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const $ = (s, c = document) => c.querySelector(s);
+      const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Header scroll state ---------- */
+      const header = $('#header');
+      const headerBar = $('#header-bar');
+      const backTop = $('#back-top');
+      function onScroll() {
+        const y = window.scrollY;
+        const scrolled = y > 24;
+        headerBar.classList.toggle('glass', scrolled);
+        headerBar.classList.toggle('border-[rgba(187,134,252,0.14)]', scrolled);
+        headerBar.classList.toggle('shadow-[0_20px_40px_-20px_rgba(0,0,0,0.8)]', scrolled);
+        backTop.classList.toggle('show', y > 600);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      /* ---------- Mobile menu ---------- */
+      const burger = $('#burger');
+      const mobileMenu = $('#mobile-menu');
+      function setMenu(open) {
+        mobileMenu.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      }
+      burger.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+      $$('.mobile-link').forEach(a => a.addEventListener('click', () => setMenu(false)));
+      window.addEventListener('resize', () => { if (window.innerWidth >= 1024) setMenu(false); });
+
+      /* ---------- Smooth scroll + active link ---------- */
+      $$('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href');
+          if (id.length < 2) return;
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+          history.replaceState(null, '', id);
+        });
+      });
+      backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+      const navLinks = $$('nav[aria-label="Navegação principal"] a');
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id));
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      ['sobre', 'recursos', 'screenshots', 'criadores', 'download'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) spy.observe(el);
+      });
+
+      /* ---------- Reveal on scroll ---------- */
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if (en.isIntersecting) { en.target.classList.add('in'); revealObs.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      $$('.reveal').forEach(el => {
+        if (reduceMotion) el.classList.add('in'); else revealObs.observe(el);
+      });
+
+      /* ---------- Card light follow ---------- */
+      $$('.glow-card').forEach(card => {
+        card.addEventListener('pointermove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--x', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--y', (e.clientY - r.top) + 'px');
+        });
+      });
+
+      /* ---------- Category chips ---------- */
+      const catDesc = {
+        'Ação': 'Títulos de ritmo intenso, combate e reflexo rápido.',
+        'Aventura': 'Exploração, histórias e mundos para descobrir com calma.',
+        'Estratégia': 'Planejamento, decisões e controle de recursos.',
+        'Corrida': 'Velocidade, pistas e competição direta.'
+      };
+      const chips = $$('#category-chips .chip');
+      const descEl = $('#category-desc');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
+          descEl.style.opacity = 0;
+          setTimeout(() => {
+            descEl.textContent = catDesc[chip.dataset.cat] || '';
+            descEl.style.opacity = 1;
+          }, 200);
+        });
+      });
+
+      /* ---------- Gallery + lightbox ---------- */
+      const shots = [
+        { src: 'https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191408.png', alt: 'Home do PortHub com catálogo de jogos', caption: 'Home' },
+        { src: 'https://github.com/user-attachments/assets/542212e5-e232-4aee-83ad-0c95c72966f7', alt: 'Tela de detalhes de um jogo no PortHub', caption: 'Detalhes' },
+        { src: 'https://raw.githubusercontent.com/RouBR-dev/PortHub/main/ScreenShorts/Screenshot_20261031-191342.png', alt: 'Biblioteca de jogos no aplicativo PortHub', caption: 'Biblioteca' },
+        { src: 'https://github.com/user-attachments/assets/3a6b37d1-8f07-4669-a928-168b383d41e9', alt: 'Tela de downloads do PortHub', caption: 'Downloads' }
+      ];
+      const lb = $('#lightbox');
+      const lbImg = $('#lb-img');
+      const lbCap = $('#lb-caption');
+      const lbCount = $('#lb-counter');
+      let current = 0;
+      let lastFocus = null;
+
+      function showShot(i, animate = true) {
+        current = (i + shots.length) % shots.length;
+        const s = shots[current];
+        if (animate && !reduceMotion) {
+          lbImg.style.opacity = 0;
+          lbImg.style.transform = 'scale(.97)';
+          setTimeout(() => { lbImg.src = s.src; lbImg.alt = s.alt; }, 180);
+          lbImg.onload = () => { lbImg.style.opacity = 1; lbImg.style.transform = 'none'; };
+        } else {
+          lbImg.src = s.src; lbImg.alt = s.alt;
+        }
+        lbCap.textContent = s.caption;
+        lbCount.textContent = (current + 1) + ' / ' + shots.length;
+      }
+      function openLb(i) {
+        lastFocus = document.activeElement;
+        showShot(i, false);
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('show')));
+        $('#lb-close').focus();
+      }
+      function closeLb() {
+        lb.classList.remove('show');
+        document.body.style.overflow = '';
+        setTimeout(() => { lb.classList.remove('open'); }, 350);
+        if (lastFocus) lastFocus.focus();
+      }
+      $$('#gallery .gallery-item').forEach(btn => {
+        btn.addEventListener('click', () => openLb(Number(btn.dataset.index)));
+      });
+      $('#lb-close').addEventListener('click', closeLb);
+      $('#lb-prev').addEventListener('click', () => showShot(current - 1));
+      $('#lb-next').addEventListener('click', () => showShot(current + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLb();
+        else if (e.key === 'ArrowLeft') showShot(current - 1);
+        else if (e.key === 'ArrowRight') showShot(current + 1);
+      });
+      // Touch swipe
+      let touchX = null;
+      lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', e => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 50) showShot(current + (dx < 0 ? 1 : -1));
+        touchX = null;
+      });
+
+      /* ---------- YouTube player (lazy embed) ---------- */
+      $$('.yt-player').forEach(wrap => {
+        const btn = $('.yt-play', wrap);
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + wrap.dataset.ytId + '?autoplay=1&rel=0';
+          iframe.title = wrap.dataset.ytTitle || 'Vídeo do PortHub';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.allowFullscreen = true;
+          iframe.className = 'absolute inset-0 w-full h-full border-0';
+          wrap.innerHTML = '';
+          wrap.appendChild(iframe);
+        });
+      });
+
+      /* ---------- Avatar fallback class for already-failed images ---------- */
+      $$('[data-avatar] img').forEach(img => {
+        if (img.complete && img.naturalWidth === 0) img.closest('[data-avatar]').classList.add('avatar-failed');
+      });
+
+      /* ---------- GitHub download counter ---------- */
+      const REPO_API = 'https://api.github.com/repos/RouBR-dev/PortHub/releases?per_page=100';
+      const CACHE_KEY = 'porthub_dl_cache';
+      const CACHE_TTL = 5 * 60 * 1000;
+      const REFRESH_MS = 5 * 60 * 1000;
+      const dlLoading = $('#dl-loading');
+      const dlCount = $('#dl-count');
+      const dlError = $('#dl-error');
+      const dlUpdated = $('#dl-updated');
+      const dlRefresh = $('#dl-refresh');
+      const dlIcon = $('#dl-refresh-icon');
+      const fmt = new Intl.NumberFormat('pt-BR');
+
+      function setState(state) {
+        dlLoading.classList.toggle('hidden', state !== 'loading');
+        dlCount.classList.toggle('hidden', state !== 'ok');
+        dlError.classList.toggle('hidden', state !== 'error');
+      }
+
+      function sumApkDownloads(releases) {
+        let total = 0;
+        releases.forEach(rel => {
+          if (rel.draft) return;
+          (rel.assets || []).forEach(a => {
+            if (a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.apk')) {
+              total += Number(a.download_count) || 0;
+            }
+          });
+        });
+        return total;
+      }
+
+      async function fetchAllReleases() {
+        const releases = [];
+        let url = REPO_API;
+        for (let page = 0; page < 10 && url; page++) {
+          const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+          if (res.status === 403 || res.status === 429) throw new Error('rate-limit');
+          if (!res.ok) throw new Error('http-' + res.status);
+          const data = await res.json();
+          if (!Array.isArray(data)) throw new Error('invalid');
+          releases.push(...data);
+          const link = res.headers.get('Link') || '';
+          const next = link.split(',').find(p => p.includes('rel="next"'));
+          url = next ? next.slice(next.indexOf('<') + 1, next.indexOf('>')) : null;
+        }
+        return releases;
+      }
+
+      function renderCount(total, timestamp) {
+        dlCount.textContent = fmt.format(total);
+        setState('ok');
+        const d = new Date(timestamp);
+        dlUpdated.textContent = 'Atualizado às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      }
+
+      async function loadDownloads(force = false) {
+        dlRefresh.disabled = true;
+        dlIcon.classList.add('spin');
+        if (!force) {
+          try {
+            const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null');
+            if (cached && Date.now() - cached.time < CACHE_TTL) {
+              renderCount(cached.total, cached.time);
+              finish();
+              return;
+            }
+          } catch (_) { /* ignore cache errors */ }
+        }
+        if (!dlCount.textContent) setState('loading');
+        try {
+          const releases = await fetchAllReleases();
+          const total = sumApkDownloads(releases);
+          const time = Date.now();
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify({ total, time }));
+          renderCount(total, time);
+        } catch (err) {
+          if (!dlCount.textContent) {
+            setState('error');
+            dlError.textContent = err.message === 'rate-limit'
+              ? 'Limite temporário da API do GitHub atingido. Tente novamente em instantes.'
+              : 'Não foi possível carregar a contagem agora.';
+          } else {
+            showToast('Não foi possível atualizar a contagem. Exibindo o último valor.');
+          }
+        } finally {
+          finish();
+        }
+      }
+      function finish() {
+        dlRefresh.disabled = false;
+        dlIcon.classList.remove('spin');
+      }
+      dlRefresh.addEventListener('click', () => loadDownloads(true));
+      loadDownloads();
+      setInterval(() => loadDownloads(false), REFRESH_MS);
+
+      /* ---------- Toast ---------- */
+      const toast = $('#toast');
+      let toastTimer;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+      }
+
+      /* ---------- Footer year ---------- */
+      $('#year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
